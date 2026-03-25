@@ -3,27 +3,21 @@ const images = document.querySelectorAll("#pics img");
 const favorites = document.getElementById("favorites");
 const actions = document.getElementById("actions");
 
-// Counter display (on va le créer dynamiquement)
 let counterDisplay = document.createElement("p");
 favorites.appendChild(counterDisplay);
 
 let selectedCount = 0;
 let totalImages = images.length;
 
-// Sauvegarde ordre original
 let originalOrder = Array.from(images);
 
-// Initial counter
 updateCounter();
 
-// CLICK sur images (dans pics)
 images.forEach((img, index) => {
     img.addEventListener("click", function () {
 
-        // Empêcher double clic
         if (img.classList.contains("selected")) return;
 
-        // Déplacer vers favorites
         favorites.appendChild(img);
 
         img.classList.add("selected");
@@ -31,10 +25,8 @@ images.forEach((img, index) => {
 
         selectedCount++;
 
-        // Log action
         addAction(`Moved ${img.src} to favorites`);
 
-        // Message utilisateur
         alert(`Image ${index + 1} selected as favorite number ${selectedCount}`);
 
         if (selectedCount === totalImages) {
@@ -44,12 +36,9 @@ images.forEach((img, index) => {
         updateCounter();
     });
 
-    // Tooltip
     img.title = img.alt;
 });
 
-
-// REVERT (cliquer sur image dans favorites)
 favorites.addEventListener("click", function (e) {
 
     if (e.target.tagName === "IMG") {
@@ -62,7 +51,6 @@ favorites.addEventListener("click", function (e) {
 
         selectedCount--;
 
-        // Remettre à la bonne position
         let originalIndex = originalOrder.indexOf(img);
 
         if (originalIndex >= pics.children.length) {
@@ -77,16 +65,12 @@ favorites.addEventListener("click", function (e) {
     }
 });
 
-
-// Ajouter action dans la liste
 function addAction(text) {
     let li = document.createElement("li");
     li.textContent = text;
     actions.appendChild(li);
 }
 
-
-// Mettre à jour compteur
 function updateCounter() {
     counterDisplay.textContent = `Remaining images: ${totalImages - selectedCount}`;
 }
